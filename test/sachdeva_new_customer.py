@@ -106,5 +106,43 @@ class TestNewCustomer(unittest.TestCase):
         print("Test Case 4: Name with first character blank")
         print("** Passed Successfully **")
 
+    def test5_empty_address(self):
+        # Clear the Address field, so there's no text from previous testcase
+        address = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.NAME, "addr")))
+        address.clear()
+
+        # Pressing TAB, to go the next field
+        address.send_keys(Keys.TAB)
+
+        # Stores the message
+        message = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.ID, "message3")))
+
+        # Asserts the actual and expected message
+        self.assertEqual("Address Field must not be blank", message.text)
+
+        # Print successful message
+        print("Test Case 5: Empty Address")
+        print("** Passed Successfully **")
+
+    def test6_address_with_first_character_blank(self):
+        # Click on the Name field to select it
+        address = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.NAME, "addr")))
+
+        # Clear the Name field, so there's no text from previous testcase
+        address.clear()
+
+        # Send numerical value
+        address.send_keys(" name")
+
+        # Stores the message
+        message = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.ID, "message")))
+
+        # Asserts the actual and expected message
+        self.assertEqual("First character can not have space", message.text)
+
+        # Print successful message
+        print("Test Case 6: Address with first character blank")
+        print("** Passed Successfully **")
+
 if __name__ == '__main__':
     unittest.main(verbosity=2)
