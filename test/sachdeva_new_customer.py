@@ -282,7 +282,7 @@ class TestNewCustomer(unittest.TestCase):
         print("** Passed Successfully **")
 
     def test14_state_with_first_character_blank(self):
-        # Click on the Name field to select it
+        # Select the state field
         state = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.NAME, "state")))
 
         # Clear the city field, so there's no text from previous testcase
@@ -301,6 +301,119 @@ class TestNewCustomer(unittest.TestCase):
         print("Test Case 14: State with first character blank")
         print("** Passed Successfully **")
 
+    def test15_pin_must_be_numeric(self):
+        # Click on the pin field
+        pin = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.NAME, "pinno")))
+
+        # Clear the pin field, so there's no text from previous testcase
+        pin.clear()
+
+        # Send input with characters
+        pin.send_keys("1234PIN")
+
+        # Stores the message
+        message = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.ID, "message6")))
+
+        # Asserts the actual and expected message
+        self.assertEqual("Characters are not allowed", message.text)
+
+        # Print successful message
+        print("Test Case 15: PIN with Non-numeric input")
+        print("** Passed Successfully **")
+
+    def test16_empty_pin(self):
+        # Clear the pin field, so there's no text from previous testcase
+        pin = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.NAME, "pinno")))
+        pin.clear()
+
+        # Pressing TAB, to go the next field
+        pin.send_keys(Keys.TAB)
+
+        # Stores the message
+        message = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.ID, "message6")))
+
+        print("Test Case 16: Empty PIN")
+
+        # Asserts the actual and expected message
+        self.assertEqual("PIN code must not be blank", message.text, )
+        print("** Passed Successfully **")
+
+    def test17_pin_length_less_than_six(self):
+        # Clear the pin field, so there's no text from previous testcase
+        pin = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.NAME, "pinno")))
+        pin.clear()
+
+        # Inputting PIN, which is less than six numbers
+        pin.send_keys("123")
+
+        # Stores the message
+        message = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.ID, "message6")))
+
+        print("Test Case 16: PIN less than six numbers")
+
+        # Asserts the actual and expected message
+        self.assertEqual("PIN Code must have 6 Digits", message.text, )
+        print("** Passed Successfully **")
+
+    def test18_pin_with_special_characters(self):
+        # Click on the Name field to select it
+        pin = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.NAME, "pinno")))
+
+        # Clear the state field, so there's no text from previous testcase
+        pin.clear()
+
+        # Send special character value
+        pin.send_keys("!@#")
+
+        # Stores the message
+        message = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.ID, "message6")))
+
+        # Asserts the actual and expected message
+        self.assertEqual("Special characters are not allowed", message.text)
+
+        # Print successful message
+        print("Test Case 18: PIN with special characters")
+        print("** Passed Successfully **")
+
+    def test19_pin_with_first_character_blank(self):
+        # Click on the city field to select it
+        pin = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.NAME, "pinno")))
+
+        # Clear the pin field, so there's no text from previous testcase
+        pin.clear()
+
+        # Send input with first character blank
+        pin.send_keys(" 123456")
+
+        # Stores the message
+        message = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.ID, "message6")))
+
+        # Asserts the actual and expected message
+        self.assertEqual("First character can not have space", message.text)
+
+        # Print successful message
+        print("Test Case 14: PIN with first character as blank")
+        print("** Passed Successfully **")
+
+    def test19_pin_with_any_character_blank_other_than_first(self):
+        # Click on the pin field
+        pin = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.NAME, "pinno")))
+
+        # Clear the pin field, so there's no text from previous testcase
+        pin.clear()
+
+        # Send input with first character blank
+        pin.send_keys("12 456")
+
+        # Stores the message
+        message = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.ID, "message6")))
+
+        # Asserts the actual and expected message
+        self.assertEqual("Characters are not allowed", message.text)
+
+        # Print successful message
+        print("Test Case 14: PIN with any character as blank, except the first one")
+        print("** Passed Successfully **")
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
