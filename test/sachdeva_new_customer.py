@@ -73,7 +73,7 @@ class TestNewCustomer(unittest.TestCase):
         # Clear the Name field, so there's no text from previous testcase
         name.clear()
 
-        # Send numerical value
+        # Send special character value
         name.send_keys("!@#")
 
         # Stores the message
@@ -93,7 +93,7 @@ class TestNewCustomer(unittest.TestCase):
         # Clear the Name field, so there's no text from previous testcase
         name.clear()
 
-        # Send numerical value
+        # Send value with first character blank
         name.send_keys(" name")
 
         # Stores the message
@@ -131,7 +131,7 @@ class TestNewCustomer(unittest.TestCase):
         # Clear the Name field, so there's no text from previous testcase
         address.clear()
 
-        # Send numerical value
+        # Send value with first character blank
         address.send_keys(" name")
 
         # Stores the message
@@ -143,6 +143,87 @@ class TestNewCustomer(unittest.TestCase):
         # Print successful message
         print("Test Case 6: Address with first character blank")
         print("** Passed Successfully **")
+
+    def test7_empty_city(self):
+        # Clear the City field, so there's no text from previous testcase
+        city = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.NAME, "city")))
+        city.clear()
+
+        # Pressing TAB, to go the next field
+        city.send_keys(Keys.TAB)
+
+        # Stores the message
+        message = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.ID, "message4")))
+
+        print("Test Case 7: Empty City")
+        try:
+            # Asserts the actual and expected message
+            self.assertEqual("City Field must be not blank", message.text, )
+            print("** Passed Successfully **")
+        except AssertionError as e:
+            print("** Failed **")
+            raise e
+
+    def test8_numerical_city(self):
+        # Get the city field
+        city = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.NAME, "city")))
+
+        # Clear the city field, so there's no text from previous testcase
+        city.clear()
+
+        # Send numerical value
+        city.send_keys("city123")
+
+        # Stores the message
+        message = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.ID, "message4")))
+
+        # Asserts the actual and expected message
+        self.assertEqual("Numbers are not allowed", message.text)
+
+        # Print successful message
+        print("Test Case 8: City with numbers")
+        print("** Passed Successfully **")
+
+    def test9_city_with_special_characters(self):
+        # Click on the Name field to select it
+        city = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.NAME, "city")))
+
+        # Clear the city field, so there's no text from previous testcase
+        city.clear()
+
+        # Send special character value
+        city.send_keys("!@#")
+
+        # Stores the message
+        message = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.ID, "message4")))
+
+        # Asserts the actual and expected message
+        self.assertEqual("Special characters are not allowed", message.text)
+
+        # Print successful message
+        print("Test Case 9: City with special characters")
+        print("** Passed Successfully **")
+
+    def test10_city_with_first_character_blank(self):
+        # Click on the Name field to select it
+        city = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.NAME, "city")))
+
+        # Clear the city field, so there's no text from previous testcase
+        city.clear()
+
+        # Send input with first character blank
+        city.send_keys(" city")
+
+        # Stores the message
+        message = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.ID, "message4")))
+
+        # Asserts the actual and expected message
+        self.assertEqual("First character can not have space", message.text)
+
+        # Print successful message
+        print("Test Case 10: City with first character blank")
+        print("** Passed Successfully **")
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
