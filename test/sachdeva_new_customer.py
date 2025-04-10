@@ -349,7 +349,7 @@ class TestNewCustomer(unittest.TestCase):
         # Stores the message
         message = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.ID, "message6")))
 
-        print("Test Case 16: PIN less than six numbers")
+        print("Test Case 17: PIN less than six numbers")
 
         # Asserts the actual and expected message
         self.assertEqual("PIN Code must have 6 Digits", message.text, )
@@ -392,10 +392,10 @@ class TestNewCustomer(unittest.TestCase):
         self.assertEqual("First character can not have space", message.text)
 
         # Print successful message
-        print("Test Case 14: PIN with first character as blank")
+        print("Test Case 19: PIN with first character as blank")
         print("** Passed Successfully **")
 
-    def test19_pin_with_any_character_blank_other_than_first(self):
+    def test20_pin_with_any_character_blank_other_than_first(self):
         # Click on the pin field
         pin = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.NAME, "pinno")))
 
@@ -412,7 +412,7 @@ class TestNewCustomer(unittest.TestCase):
         self.assertEqual("Characters are not allowed", message.text)
 
         # Print successful message
-        print("Test Case 14: PIN with any character as blank, except the first one")
+        print("Test Case 20: PIN with any character as blank, except the first one")
         print("** Passed Successfully **")
 
 if __name__ == '__main__':
