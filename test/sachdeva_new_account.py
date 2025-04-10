@@ -5,6 +5,7 @@ from selenium import webdriver
 from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support.wait import WebDriverWait
 
 SUCCESS_MESSAGE = "Passed successfully"
@@ -226,6 +227,50 @@ class TestNewAccount(unittest.TestCase):
         except AssertionError as e:
             print(f"Test Case 10: Initial Deposit with first character blank - {FAILURE_MESSAGE}")
             raise e
+
+    def test11_select_savings(self):
+        # Selects the account type dropdown
+        dropdown_element = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.NAME, "selaccount")))
+
+        # Click on the account type drop down
+        dropdown_element.click()
+
+        # Create an instance of Select class
+        dropdown = Select(dropdown_element)
+
+        # Now select savings by visible text
+        dropdown.select_by_visible_text("Savings")
+
+        # Get the selected option
+        selected_value = dropdown.first_selected_option
+
+        # Asserts the actual and expected message
+        self.assertEqual("Savings", selected_value.text)
+
+        # Print successful message
+        print(f"Test Case 11: Selecting savings account type - {SUCCESS_MESSAGE}")
+
+    def test12_select_current(self):
+        # Selects the account type dropdown
+        dropdown_element = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.NAME, "selaccount")))
+
+        # Click on the account type drop down
+        dropdown_element.click()
+
+        # Create an instance of Select class
+        dropdown = Select(dropdown_element)
+
+        # Now select savings by visible text
+        dropdown.select_by_visible_text("Current")
+
+        # Get the selected option
+        selected_value = dropdown.first_selected_option
+
+        # Asserts the actual and expected message
+        self.assertEqual("Current", selected_value.text)
+
+        # Print successful message
+        print(f"Test Case 12: Selecting current account type - {SUCCESS_MESSAGE}")
 
 
 if __name__ == "__main__":
