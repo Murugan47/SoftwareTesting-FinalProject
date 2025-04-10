@@ -272,6 +272,25 @@ class TestNewAccount(unittest.TestCase):
         # Print successful message
         print(f"Test Case 12: Selecting current account type - {SUCCESS_MESSAGE}")
 
+    def test13_reset_button(self):
+        # Fill sample data in customer id and initial deposit
+        customer_id = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "cusid")))
+        customer_id.clear()
+        customer_id.send_keys("qwer")
+        initial_deposit = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "inideposit")))
+        initial_deposit.clear()
+        initial_deposit.send_keys("123456")
+
+        # Click on reset button
+        WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.NAME, "reset"))).click()
+
+        # Assert if both customer_id and initial_deposit gets cleared out
+        self.assertEqual("", customer_id.text)
+        self.assertEqual("", initial_deposit.text)
+
+        # Print successful message
+        print(f"Test Case 13: Reset button - {SUCCESS_MESSAGE}")
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
