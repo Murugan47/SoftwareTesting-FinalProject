@@ -492,5 +492,65 @@ class TestNewCustomer(unittest.TestCase):
         print("Test Case 24: Mobile Number with special characters")
         print("** Passed Successfully **")
 
+    def test25_empty_email(self):
+        # Clear the email field, so there's no text from previous testcase
+        email = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.NAME, "emailid")))
+        email.clear()
+
+        # Pressing TAB, to go the next field
+        email.send_keys(Keys.TAB)
+
+        # Stores the message
+        message = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.ID, "message9")))
+
+        print("Test Case 25: Empty Email ID")
+
+        try:
+            # Asserts the actual and expected message
+            self.assertEqual("Email ID must not be blank", message.text)
+            print("** Passed Successfully **")
+        except AssertionError as e:
+            print("** Failed **")
+            raise e
+
+    def test26_email_incorrect_format(self):
+        # Clear the email field, so there's no text from previous testcase
+        email = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.NAME, "emailid")))
+        email.clear()
+
+        # Sending uncorrected formatted email address
+        email.send_keys("guru99@gmail.")
+
+        # Stores the message
+        message = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.ID, "message9")))
+
+        print("Test Case 26: Email ID incorrect format")
+
+        # Asserts the actual and expected message
+        self.assertEqual("Email-ID is not valid", message.text)
+        print("** Passed Successfully **")
+
+    def test27_email_with_empty_space(self):
+        # Clear the email field, so there's no text from previous testcase
+        email = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.NAME, "emailid")))
+        email.clear()
+
+        # Sending input with space
+        email.send_keys("guru99@gmail .com")
+
+        # Stores the message
+        message = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.ID, "message9")))
+
+        print("Test Case 27: Email ID with empty space")
+
+        try:
+            # Asserts the actual and expected message
+            self.assertEqual("Email-ID is not valid", message.text)
+            print("** Passed Successfully **")
+        except AssertionError as e:
+            print("** Failed **")
+            raise e
+
+
 if __name__ == '__main__':
     unittest.main(verbosity=2)
