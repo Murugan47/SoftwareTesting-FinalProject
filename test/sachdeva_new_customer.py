@@ -415,5 +415,82 @@ class TestNewCustomer(unittest.TestCase):
         print("Test Case 20: PIN with any character as blank, except the first one")
         print("** Passed Successfully **")
 
+    def test21_empty_mobile_number(self):
+        # Clear the mobile_number field, so there's no text from previous testcase
+        mobile_number = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.NAME, "telephoneno")))
+        mobile_number.clear()
+
+        # Pressing TAB, to go the next field
+        mobile_number.send_keys(Keys.TAB)
+
+        # Stores the message
+        message = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.ID, "message7")))
+
+        print("Test Case 21: Empty Mobile Number")
+
+        # Asserts the actual and expected message
+        self.assertEqual("Mobile no must not be blank", message.text, )
+        print("** Passed Successfully **")
+
+    def test22_mobile_number_with_first_character_blank(self):
+        # Click on the mobile_number field to select it
+        mobile_number = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.NAME, "telephoneno")))
+
+        # Clear the mobile_number field, so there's no text from previous testcase
+        mobile_number.clear()
+
+        # Send input with first character blank
+        mobile_number.send_keys(" 123456")
+
+        # Stores the message
+        message = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.ID, "message7")))
+
+        # Asserts the actual and expected message
+        self.assertEqual("First character can not have space", message.text)
+
+        # Print successful message
+        print("Test Case 22: Mobile Number with first character as blank")
+        print("** Passed Successfully **")
+
+    def test23_mobile_number_with_blank_except_first(self):
+        # Click on the mobile_number field
+        mobile_number = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.NAME, "telephoneno")))
+
+        # Clear the mobile_number field, so there's no text from previous testcase
+        mobile_number.clear()
+
+        # Send input with any character blank
+        mobile_number.send_keys("12 456")
+
+        # Stores the message
+        message = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.ID, "message7")))
+
+        # Asserts the actual and expected message
+        self.assertEqual("Characters are not allowed", message.text)
+
+        # Print successful message
+        print("Test Case 23: Mobile Number with any character as blank, except the first one")
+        print("** Passed Successfully **")
+
+    def test24_mobile_number_with_special_characters(self):
+        # Click on the mobile_number field to select it
+        mobile_number = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.NAME, "telephoneno")))
+
+        # Clear the mobile_number field, so there's no text from previous testcase
+        mobile_number.clear()
+
+        # Send special character value
+        mobile_number.send_keys("!@#")
+
+        # Stores the message
+        message = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.ID, "message7")))
+
+        # Asserts the actual and expected message
+        self.assertEqual("Special characters are not allowed", message.text)
+
+        # Print successful message
+        print("Test Case 24: Mobile Number with special characters")
+        print("** Passed Successfully **")
+
 if __name__ == '__main__':
     unittest.main(verbosity=2)
