@@ -224,6 +224,83 @@ class TestNewCustomer(unittest.TestCase):
         print("Test Case 10: City with first character blank")
         print("** Passed Successfully **")
 
+    def test11_empty_state(self):
+        # Clear the State field, so there's no text from previous testcase
+        state = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.NAME, "state")))
+        state.clear()
+
+        # Pressing TAB, to go the next field
+        state.send_keys(Keys.TAB)
+
+        # Stores the message
+        message = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.ID, "message5")))
+
+        print("Test Case 11: Empty State")
+
+        # Asserts the actual and expected message
+        self.assertEqual("State must not be blank", message.text, )
+        print("** Passed Successfully **")
+
+    def test12_numerical_state(self):
+        # Get the state field
+        state = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.NAME, "state")))
+
+        # Clear the state field, so there's no text from previous testcase
+        state.clear()
+
+        # Send numerical value
+        state.send_keys("state123")
+
+        # Stores the message
+        message = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.ID, "message5")))
+
+        # Asserts the actual and expected message
+        self.assertEqual("Numbers are not allowed", message.text)
+
+        # Print successful message
+        print("Test Case 12: State with numbers")
+        print("** Passed Successfully **")
+
+    def test13_state_with_special_characters(self):
+        # Click on the Name field to select it
+        state = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.NAME, "state")))
+
+        # Clear the state field, so there's no text from previous testcase
+        state.clear()
+
+        # Send special character value
+        state.send_keys("!@#")
+
+        # Stores the message
+        message = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.ID, "message5")))
+
+        # Asserts the actual and expected message
+        self.assertEqual("Special characters are not allowed", message.text)
+
+        # Print successful message
+        print("Test Case 13: City with special characters")
+        print("** Passed Successfully **")
+
+    def test14_state_with_first_character_blank(self):
+        # Click on the Name field to select it
+        state = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.NAME, "state")))
+
+        # Clear the city field, so there's no text from previous testcase
+        state.clear()
+
+        # Send input with first character blank
+        state.send_keys(" city")
+
+        # Stores the message
+        message = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.ID, "message5")))
+
+        # Asserts the actual and expected message
+        self.assertEqual("First character can not have space", message.text)
+
+        # Print successful message
+        print("Test Case 14: State with first character blank")
+        print("** Passed Successfully **")
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
