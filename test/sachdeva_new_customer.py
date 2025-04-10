@@ -125,7 +125,7 @@ class TestNewCustomer(unittest.TestCase):
         print("** Passed Successfully **")
 
     def test6_address_with_first_character_blank(self):
-        # Click on the Name field to select it
+        # Select the Address field
         address = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.NAME, "addr")))
 
         # Clear the Name field, so there's no text from previous testcase
@@ -278,14 +278,14 @@ class TestNewCustomer(unittest.TestCase):
         self.assertEqual("Special characters are not allowed", message.text)
 
         # Print successful message
-        print("Test Case 13: City with special characters")
+        print("Test Case 13: State with special characters")
         print("** Passed Successfully **")
 
     def test14_state_with_first_character_blank(self):
         # Select the state field
         state = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.NAME, "state")))
 
-        # Clear the city field, so there's no text from previous testcase
+        # Clear the state field, so there's no text from previous testcase
         state.clear()
 
         # Send input with first character blank
@@ -356,7 +356,7 @@ class TestNewCustomer(unittest.TestCase):
         print("** Passed Successfully **")
 
     def test18_pin_with_special_characters(self):
-        # Click on the Name field to select it
+        # Select the PIN field
         pin = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.NAME, "pinno")))
 
         # Clear the state field, so there's no text from previous testcase
@@ -376,7 +376,7 @@ class TestNewCustomer(unittest.TestCase):
         print("** Passed Successfully **")
 
     def test19_pin_with_first_character_blank(self):
-        # Click on the city field to select it
+        # Select the PIN field
         pin = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.NAME, "pinno")))
 
         # Clear the pin field, so there's no text from previous testcase
