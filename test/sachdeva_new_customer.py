@@ -551,6 +551,23 @@ class TestNewCustomer(unittest.TestCase):
             print("** Failed **")
             raise e
 
+    def test28_empty_password(self):
+        # Clear the password field, so there's no text from previous testcase
+        password = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.NAME, "password")))
+        password.clear()
+
+        # Pressing TAB, to go the next field
+        password.send_keys(Keys.TAB)
+
+        # Stores the message
+        message = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.ID, "message18")))
+
+        print("Test Case 28: Empty password")
+
+        # Asserts the actual and expected message
+        self.assertEqual("Password must not be blank", message.text)
+        print("** Passed Successfully **")
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
