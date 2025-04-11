@@ -334,6 +334,28 @@ class TestNewAccount(unittest.TestCase):
 
         print(f"Test Case 15: Creating a new account - {SUCCESS_MESSAGE}")
 
+    def test16_continue_after_account_creation(self):
+        # Fill correct customer id
+        customer_id = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "cusid")))
+        customer_id.clear() # To clear input from previous tests
+        customer_id.send_keys("36868")
+        # Fill correct initial deposit
+        initial_deposit = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "inideposit")))
+        initial_deposit.clear() # To clear input from previous tests
+        initial_deposit.send_keys("1000")
+
+        # Click on submit button
+        WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.NAME, "button2"))).click()
+
+        # Click on continue
+        WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#account > tbody:nth-child(1) > tr:nth-child(11) > td:nth-child(1) > a:nth-child(1)"))).click()
+
+        # To make suer it reaches the home page
+        manager_id = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "tr.heading3 > td:nth-child(1)")))
+        self.assertEqual("Manger Id : mngr619292", manager_id.text)
+
+        print(f"Test Case 16: Redirects to Home page - {SUCCESS_MESSAGE}")
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
