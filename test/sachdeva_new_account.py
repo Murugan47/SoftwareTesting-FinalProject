@@ -291,6 +291,49 @@ class TestNewAccount(unittest.TestCase):
         # Print successful message
         print(f"Test Case 13: Reset button - {SUCCESS_MESSAGE}")
 
+    def test14_submit_with_wrong_cus_id(self):
+        # Fill wrong data in customer id
+        customer_id = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "cusid")))
+        customer_id.clear() # To clear input from previous tests
+        customer_id.send_keys("123456")
+
+        # Click on submit button
+        WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.NAME, "button2"))).click()
+
+        # Catch the alert
+        WebDriverWait(self.driver, 10).until(EC.alert_is_present())
+        alert = self.driver.switch_to.alert
+
+
+        try:
+            # Assert the alert text
+            self.assertEqual("Customer does not exist!!", alert.text)
+            print(f"Test Case 14: Submit with wrong customer id - {SUCCESS_MESSAGE}")
+        except AssertionError as e:
+            print(f"Test Case 14: Submit with wrong customer id - {FAILURE_MESSAGE}")
+            raise e
+
+    def test15_submit_with_right_data(self):
+        # Fill correct customer id
+        customer_id = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "cusid")))
+        customer_id.clear() # To clear input from previous tests
+        customer_id.send_keys("36868")
+        # Fill correct initial deposit
+        initial_deposit = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "inideposit")))
+        initial_deposit.clear() # To clear input from previous tests
+        initial_deposit.send_keys("1000")
+
+        # Click on submit button
+        WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.NAME, "button2"))).click()
+
+        # Get the result
+        message = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, "heading3")))
+
+        # Asserts the actual and expected message
+        self.assertEqual("Account Generated Successfully!!!", message.text)
+
+        print(f"Test Case 15: Creating a new account - {SUCCESS_MESSAGE}")
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
