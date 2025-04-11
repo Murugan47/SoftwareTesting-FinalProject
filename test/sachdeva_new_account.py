@@ -334,27 +334,51 @@ class TestNewAccount(unittest.TestCase):
 
         print(f"Test Case 15: Creating a new account - {SUCCESS_MESSAGE}")
 
-    def test16_continue_after_account_creation(self):
-        # Fill correct customer id
-        customer_id = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "cusid")))
-        customer_id.clear() # To clear input from previous tests
-        customer_id.send_keys("36868")
-        # Fill correct initial deposit
-        initial_deposit = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "inideposit")))
-        initial_deposit.clear() # To clear input from previous tests
-        initial_deposit.send_keys("1000")
+    class TestNewAccountRedirection(unittest.TestCase):
+        @classmethod
+        def setUpClass(cls):
+            """Set up the WebDriver instance before running any tests."""
+            cls.driver = webdriver.Firefox()  # Creating a firefox driver object
+            cls.driver.maximize_window()
+            cls.driver.get("https://demo.guru99.com/V4/index.php")  # Tells the browser to go specific website
+            # Logs in the manager
+            WebDriverWait(cls.driver, 10).until(EC.element_to_be_clickable((By.NAME, "uid"))).send_keys("mngr619292")
+            WebDriverWait(cls.driver, 10).until(EC.element_to_be_clickable((By.NAME, "password"))).send_keys("emadymA")
+            WebDriverWait(cls.driver, 10).until(EC.element_to_be_clickable((By.NAME, "btnLogin"))).click()
 
-        # Click on submit button
-        WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.NAME, "button2"))).click()
+            # Clicks on new account
+            WebDriverWait(cls.driver, 10).until(
+                EC.element_to_be_clickable((By.CSS_SELECTOR, ".menusubnav > li:nth-child(5) > a:nth-child(1)"))).click()
 
-        # Click on continue
-        WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#account > tbody:nth-child(1) > tr:nth-child(11) > td:nth-child(1) > a:nth-child(1)"))).click()
+        @classmethod
+        def tearDownClass(cls):
+            """Quit the WebDriver instance after all tests."""
+            cls.driver.quit()
 
-        # To make suer it reaches the home page
-        manager_id = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "tr.heading3 > td:nth-child(1)")))
-        self.assertEqual("Manger Id : mngr619292", manager_id.text)
+        def test16_continue_after_account_creation(self):
+            # Fill correct customer id
+            customer_id = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "cusid")))
+            customer_id.clear()  # To clear input from previous tests
+            customer_id.send_keys("36868")
+            # Fill correct initial deposit
+            initial_deposit = WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located((By.NAME, "inideposit")))
+            initial_deposit.clear()  # To clear input from previous tests
+            initial_deposit.send_keys("1000")
 
-        print(f"Test Case 16: Redirects to Home page - {SUCCESS_MESSAGE}")
+            # Click on submit button
+            WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.NAME, "button2"))).click()
+
+            # Click on continue
+            WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR,
+                                                                             "#account > tbody:nth-child(1) > tr:nth-child(11) > td:nth-child(1) > a:nth-child(1)"))).click()
+
+            # To make suer it reaches the home page
+            manager_id = WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located((By.CSS_SELECTOR, "tr.heading3 > td:nth-child(1)")))
+            self.assertEqual("Manger Id : mngr619292", manager_id.text)
+
+            print(f"Test Case 16: Redirects to Home page - {SUCCESS_MESSAGE}")
 
 
 if __name__ == "__main__":
