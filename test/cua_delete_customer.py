@@ -96,7 +96,6 @@ class TestV4DeleteCustomer():
         self.driver.set_window_size(1065, 751)
         self.driver.find_element(By.NAME, "cusid").click()
         self.driver.find_element(By.NAME, "cusid").send_keys("95820")
-        # self.driver.find_element(By.CSS_SELECTOR, "div:nth-child(7) > div").click()
         self.driver.find_element(By.NAME, "AccSubmit").click()
 
     def test_test8ResetButton(self):
