@@ -71,7 +71,6 @@ class TestV4DeleteCustomer():
         assert len(elements) > 0
 
     def test_test6IncorrectCustomerID(self):
-
         # Fill wrong data in account number
         self.driver.get("https://demo.guru99.com/V4/manager/DeleteCustomerInput.php")
         self.driver.set_window_size(741, 731)
@@ -91,7 +90,6 @@ class TestV4DeleteCustomer():
         alert = self.driver.switch_to.alert
         # Assert
         assert alert.text == "Customer does not exist!!"
-
 
     def test_test7CorrectCustomerID(self):
         self.driver.get("https://demo.guru99.com/V4/manager/DeleteCustomerInput.php")

@@ -49,15 +49,6 @@ class TestDeleteAccountwithAssert():
         elements = self.driver.find_elements(By.XPATH, "//label[@id=\'message2\']")
         assert len(elements) > 0
 
-    def test_test6ValidAccount(self):
-        self.driver.get("https://demo.guru99.com/V4/manager/deleteAccountInput.php")
-        self.driver.set_window_size(741, 731)
-        self.driver.find_element(By.NAME, "accountno").click()
-        self.driver.find_element(By.NAME, "accountno").send_keys("143932")
-        self.driver.find_element(By.NAME, "AccSubmit").click()
-        assert self.driver.switch_to.alert.text == "Do you really want to delete this Account?"
-        self.driver.switch_to.alert.accept()
-
     def test_test5FirstCharacterCannotBeSpace(self):
         self.driver.get("https://demo.guru99.com/V4/manager/deleteAccountInput.php")
         self.driver.set_window_size(741, 731)
@@ -67,6 +58,15 @@ class TestDeleteAccountwithAssert():
             expected_conditions.presence_of_element_located((By.XPATH, "//label[@id=\'message2\']")))
         elements = self.driver.find_elements(By.XPATH, "//label[@id=\'message2\']")
         assert len(elements) > 0
+
+    def test_test6ValidAccount(self):
+        self.driver.get("https://demo.guru99.com/V4/manager/deleteAccountInput.php")
+        self.driver.set_window_size(741, 731)
+        self.driver.find_element(By.NAME, "accountno").click()
+        self.driver.find_element(By.NAME, "accountno").send_keys("143932")
+        self.driver.find_element(By.NAME, "AccSubmit").click()
+        assert self.driver.switch_to.alert.text == "Do you really want to delete this Account?"
+        self.driver.switch_to.alert.accept()
 
     def test_test7InvalidAccountNo(self):
         # Fill wrong data in account number
