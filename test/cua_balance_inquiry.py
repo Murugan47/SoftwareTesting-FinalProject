@@ -1,4 +1,3 @@
-import pytest
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions
@@ -59,11 +58,20 @@ class TestDefaultSuite():
         self.driver.find_element(By.NAME, "AccSubmit").click()
 
     def test_test6InValidAccount(self):
+        # Fill wrong data in account number
         self.driver.get("https://demo.guru99.com/V4/manager/BalEnqInput.php")
-        self.driver.set_window_size(844, 720)
-        self.driver.find_element(By.NAME, "accountno").click()
-        self.driver.find_element(By.NAME, "accountno").send_keys("12345")
-        self.driver.find_element(By.NAME, "AccSubmit").click()
+        self.driver.set_window_size(741, 731)
+        account_no = WebDriverWait(self.driver, 10).until(
+            expected_conditions.presence_of_element_located((By.NAME, "accountno")))
+        account_no.clear()  # To clear input from previous tests
+        account_no.send_keys("36363636")
+        # Click on submit button
+        WebDriverWait(self.driver, 10).until(
+            expected_conditions.element_to_be_clickable((By.NAME, "AccSubmit"))).click()
+        WebDriverWait(self.driver, 10).until(expected_conditions.alert_is_present())
+        alert = self.driver.switch_to.alert
+        # Assert
+        assert alert.text == "Account does not exist"
 
     def test_test7ResetButton(self):
         self.driver.get("https://demo.guru99.com/V4/manager/BalEnqInput.php")
