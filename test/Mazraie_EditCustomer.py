@@ -145,6 +145,7 @@ class TestEditCustomer:
 
     # This tests each input box for a valid input and checks if it throws an error message
     # If it does it will succeed, if it does not the test will fail
+    # This test fails, as when the submit button is pressed, it does not output anything to indicate a successful update
     def test_valid_submit(self):
         self.driver.find_element(By.NAME, "res").click()
         self.driver.find_element(By.NAME, "addr").clear()

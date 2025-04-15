@@ -63,7 +63,11 @@ class TestEditAccount:
         self.driver.find_element(By.NAME, "accountno").send_keys(" ")
         self.driver.find_element(By.CSS_SELECTOR, "td > p:nth-child(2)").click()
         message = self.driver.find_element(By.XPATH, '//*[@id="message2"]').text
-        assert message in ["First character cannot have a space", "Characters are not allowed"]
+        try:
+            assert message == "First character cannot have a space"
+        except AssertionError as e:
+            print("Assertion Error:", e)
+            raise e
 
     # This tests each input box for a space in the middle input and checks if it throws an error message
     # If it does it will succeed, if it does not the test will fail
@@ -76,6 +80,9 @@ class TestEditAccount:
 
     # This tests each input box for a valid account number input and checks if it throws an error message
     # If it does it will succeed, if it does not the test will fail
+    # This test fails, as when there is an attempt to login into the website, it spits an error
+    # Expected result is a successful login
+    # Actual result is an error
     def test_valid_account_number(self):
         self.driver.find_element(By.NAME, "res").click()
         self.driver.find_element(By.NAME, "accountno").send_keys("143849")
