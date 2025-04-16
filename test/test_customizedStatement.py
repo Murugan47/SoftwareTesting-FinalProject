@@ -5,213 +5,231 @@ import json
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 class TestCustomizedStatement():
-  def setup_method(self, method):
-    self.driver = webdriver.Firefox()
-    self.vars = {}
-  
-  def teardown_method(self, method):
-    self.driver.quit()
-  
-  def test_cS1(self):
-    self.driver.get("https://demo.guru99.com/V4/manager/CustomisedStatementInput.php")
-    self.driver.set_window_size(619, 695)
-    self.driver.find_element(By.NAME, "AccSubmit").click()
-    assert self.driver.switch_to.alert.text == "Please fill all fields"
-  
-  def test_cS2(self):
-    self.driver.get("https://demo.guru99.com/V4/manager/CustomisedStatementInput.php")
-    self.driver.set_window_size(619, 695)
-    self.driver.find_element(By.NAME, "accountno").click()
-    self.driver.find_element(By.NAME, "accountno").send_keys("1234acc123")
-    check = self.driver.find_element(By.XPATH, '//*[@id="message2"]').text
-    assert check == "Characters are not allowed"
-    self.driver.find_element(By.NAME, "AccSubmit").click()
-    assert self.driver.switch_to.alert.text == "Please fill all fields"
-    self.driver.close()
-  
-  def test_cS3(self):
-    self.driver.get("https://demo.guru99.com/V4/manager/CustomisedStatementInput.php")
-    self.driver.set_window_size(619, 695)
-    self.driver.find_element(By.NAME, "accountno").click()
-    self.driver.find_element(By.NAME, "accountno").send_keys("123!@#!@#")
-    check = self.driver.find_element(By.XPATH, '//*[@id="message2"]').text
-    assert check == "Special characters are not allowed"
-    self.driver.find_element(By.NAME, "AccSubmit").click()
-    assert self.driver.switch_to.alert.text == "Please fill all fields"
-    self.driver.close()
-  
-  def test_cS4(self):
-    self.driver.get("https://demo.guru99.com/V4/manager/CustomisedStatementInput.php")
-    self.driver.set_window_size(619, 695)
-    self.driver.find_element(By.NAME, "accountno").click()
-    self.driver.find_element(By.NAME, "accountno").send_keys("123 12")
-    check = self.driver.find_element(By.XPATH, '//*[@id="message2"]').text
-    assert check == "Characters are not allowed"
-    self.driver.find_element(By.CSS_SELECTOR, ".heading3").click()
-    self.driver.find_element(By.NAME, "AccSubmit").click()
-    assert self.driver.switch_to.alert.text == "Please fill all fields"
-    self.driver.close()
-  
-  def test_cS5(self):
-    self.driver.get("https://demo.guru99.com/V4/manager/CustomisedStatementInput.php")
-    self.driver.set_window_size(619, 695)
-    self.driver.find_element(By.CSS_SELECTOR, "tbody:nth-child(1) > tr:nth-child(1) > td").click()
-    self.driver.find_element(By.NAME, "accountno").click()
-    self.driver.find_element(By.NAME, "accountno").send_keys(" ")
-    check = self.driver.find_element(By.XPATH, '//*[@id="message2"]').text
-    assert check == "Characters are not allowed"
-    self.driver.find_element(By.NAME, "AccSubmit").click()
-    assert self.driver.switch_to.alert.text == "Please fill all fields"
-    self.driver.find_element(By.NAME, "accountno").click()
-    self.driver.find_element(By.NAME, "accountno").send_keys("  ")
-    self.driver.find_element(By.NAME, "AccSubmit").click()
-    assert self.driver.switch_to.alert.text == "Please fill all fields"
-    self.driver.close()
-  
-  def test_cS6(self):
-    self.driver.get("https://demo.guru99.com/V4/manager/CustomisedStatementInput.php")
-    self.driver.set_window_size(619, 695)
-    self.driver.find_element(By.NAME, "fdate").click()
-    check = self.driver.find_element(By.XPATH, '//*[@id="message26"]').text
-    assert check == "From Date Field must not be blank"
-    self.driver.close()
-  
-  def test_cS7(self):
-    self.driver.get("https://demo.guru99.com/V4/manager/CustomisedStatementInput.php")
-    self.driver.set_window_size(619, 695)
-    self.driver.find_element(By.NAME, "tdate").click()
-    check = self.driver.find_element(By.XPATH, '//*[@id="message27"]').text
-    assert check == "From Date Field must not be blank"
-    self.driver.find_element(By.NAME, "AccSubmit").click()
-    assert self.driver.switch_to.alert.text == "Please fill all fields"
-    self.driver.close()
-  
-  def test_cS8(self):
-    self.driver.get("https://demo.guru99.com/V4/manager/CustomisedStatementInput.php")
-    self.driver.set_window_size(619, 695)
-    self.driver.find_element(By.NAME, "amountlowerlimit").click()
-    self.driver.find_element(By.NAME, "amountlowerlimit").send_keys("1234Acc123")
-    check = self.driver.find_element(By.XPATH, '//*[@id="message12"]').text
-    assert check == "Characters are not allowed"
-    self.driver.find_element(By.NAME, "AccSubmit").click()
-    assert self.driver.switch_to.alert.text == "Please fill all fields"
-    self.driver.close()
-  
-  def test_cS9(self):
-    self.driver.get("https://demo.guru99.com/V4/manager/CustomisedStatementInput.php")
-    self.driver.set_window_size(619, 695)
-    self.driver.find_element(By.NAME, "amountlowerlimit").click()
-    self.driver.find_element(By.NAME, "amountlowerlimit").send_keys("123!@#")
-    check = self.driver.find_element(By.XPATH, '//*[@id="message12"]').text
-    assert check == "Special characters are not allowed"
-    self.driver.find_element(By.NAME, "AccSubmit").click()
-    assert self.driver.switch_to.alert.text == "Please fill all fields"
-    self.driver.close()
-  
-  def test_cS10(self):
-    self.driver.get("https://demo.guru99.com/V4/manager/CustomisedStatementInput.php")
-    self.driver.set_window_size(619, 695)
-    self.driver.find_element(By.NAME, "amountlowerlimit").click()
-    self.driver.find_element(By.NAME, "amountlowerlimit").send_keys("123 12")
-    check = self.driver.find_element(By.XPATH, '//*[@id="message12"]').text
-    assert check == "Characters are not allowed"
-    self.driver.find_element(By.NAME, "AccSubmit").click()
-    assert self.driver.switch_to.alert.text == "Please fill all fields"
-    self.driver.close()
-  
-  def test_cS11(self):
-    self.driver.get("https://demo.guru99.com/V4/manager/CustomisedStatementInput.php")
-    self.driver.set_window_size(619, 695)
-    self.driver.find_element(By.NAME, "amountlowerlimit").click()
-    self.driver.find_element(By.NAME, "amountlowerlimit").send_keys(" ")
-    check = self.driver.find_element(By.XPATH, '//*[@id="message12"]').text
-    assert check == "Characters are not allowed"
-    self.driver.find_element(By.NAME, "AccSubmit").click()
-    assert self.driver.switch_to.alert.text == "Please fill all fields"
-    self.driver.close()
-  
-  def test_cS12(self):
-    self.driver.get("https://demo.guru99.com/V4/manager/CustomisedStatementInput.php")
-    self.driver.set_window_size(619, 695)
-    self.driver.find_element(By.NAME, "numtransaction").click()
-    self.driver.find_element(By.NAME, "numtransaction").send_keys("1234Acc123")
-    check = self.driver.find_element(By.XPATH, '//*[@id="message13"]').text
-    assert check == "Characters are not allowed"
-    self.driver.find_element(By.NAME, "AccSubmit").click()
-    assert self.driver.switch_to.alert.text == "Please fill all fields"
-    self.driver.close()
-  
-  def test_cS13(self):
-    self.driver.get("https://demo.guru99.com/V4/manager/CustomisedStatementInput.php")
-    self.driver.set_window_size(619, 695)
-    self.driver.find_element(By.NAME, "numtransaction").click()
-    self.driver.find_element(By.NAME, "numtransaction").send_keys("123!@#")
-    check = self.driver.find_element(By.XPATH, '//*[@id="message13"]').text
-    assert check == "Number of Transaction cannot have special character"
-    self.driver.find_element(By.NAME, "AccSubmit").click()
-    assert self.driver.switch_to.alert.text == "Please fill all fields"
-    self.driver.close()
-  
-  def test_cS14(self):
-    self.driver.get("https://demo.guru99.com/V4/manager/CustomisedStatementInput.php")
-    self.driver.set_window_size(619, 695)
-    self.driver.find_element(By.NAME, "numtransaction").click()
-    self.driver.find_element(By.NAME, "numtransaction").send_keys("123 12")
-    check = self.driver.find_element(By.XPATH, '//*[@id="message13"]').text
-    assert check == "Characters are not allowed"
-    self.driver.find_element(By.NAME, "AccSubmit").click()
-    assert self.driver.switch_to.alert.text == "Please fill all fields"
-    self.driver.close()
-  
-  def test_cS15(self):
-    self.driver.get("https://demo.guru99.com/V4/manager/CustomisedStatementInput.php")
-    self.driver.set_window_size(619, 695)
-    self.driver.find_element(By.NAME, "numtransaction").click()
-    self.driver.find_element(By.NAME, "numtransaction").send_keys(" ")
-    check = self.driver.find_element(By.XPATH, '//*[@id="message13"]').text
-    assert check == "There is no error message"
-    self.driver.find_element(By.NAME, "AccSubmit").click()
-    assert self.driver.switch_to.alert.text == "Please fill all fields"
-    self.driver.close()
-  
-  def test_cS16(self):
-    self.driver.get("https://demo.guru99.com/V4/manager/CustomisedStatementInput.php")
-    self.driver.set_window_size(619, 695)
-    self.driver.find_element(By.NAME, "accountno").click()
-    self.driver.find_element(By.NAME, "accountno").send_keys("12345")
-    self.driver.find_element(By.CSS_SELECTOR, "tbody:nth-child(1) > tr:nth-child(1) > td").click()
-    self.driver.find_element(By.NAME, "fdate").click()
-    self.driver.find_element(By.NAME, "fdate").send_keys("2000-01-01")
-    self.driver.find_element(By.NAME, "tdate").click()
-    self.driver.find_element(By.NAME, "tdate").send_keys("2000-02-02")
-    self.driver.find_element(By.NAME, "amountlowerlimit").click()
-    self.driver.find_element(By.NAME, "amountlowerlimit").send_keys("2")
-    self.driver.find_element(By.NAME, "numtransaction").click()
-    self.driver.find_element(By.NAME, "numtransaction").send_keys("1")
-    self.driver.find_element(By.NAME, "res").click()
-    check = self.driver.find_element(By.NAME, "accountno").text
-    assert check == ""
-    self.driver.close()
+    def setup_method(self, method):
+        self.driver = webdriver.Firefox()
+        self.vars = {}
 
-  def test_CS17(self):
-    self.driver.find_element(By.NAME, "accountno").click()
-    self.driver.find_element(By.NAME, "accountno").send_keys("52793")
-    self.driver.find_element(By.NAME, "fdate").click()
-    self.driver.find_element(By.NAME, "fdate").send_keys("2025-05-12")
-    self.driver.find_element(By.NAME, "tdate").click()
-    self.driver.find_element(By.NAME, "tdate").send_keys("2026-01-02")
-    self.driver.find_element(By.NAME, "amountlowerlimit").click()
-    self.driver.find_element(By.NAME, "amountlowerlimit").send_keys("34000")
-    self.driver.find_element(By.NAME, "numtransaction").click()
-    self.driver.find_element(By.NAME, "numtransaction").send_keys("1")
-    self.driver.find_element(By.CSS_SELECTOR, "tr:nth-child(9) > td:nth-child(2)").click()
-    self.driver.find_element(By.NAME, "AccSubmit").click()
-    assert self.driver.switch_to.alert.text == "Please fill all fields"
-    self.driver.close()
+    def teardown_method(self, method):
+        self.driver.quit()
+
+    def test_cS1(self):
+        self.driver.get("https://demo.guru99.com/V4/manager/CustomisedStatementInput.php")
+        self.driver.set_window_size(619, 695)
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "AccSubmit"))).click()
+        WebDriverWait(self.driver, 10).until(EC.alert_is_present())
+        assert self.driver.switch_to.alert.text == "Please fill all fields"
+
+    def test_cS2(self):
+        self.driver.get("https://demo.guru99.com/V4/manager/CustomisedStatementInput.php")
+        self.driver.set_window_size(619, 695)
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "accountno"))).click()
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "accountno"))).send_keys("1234acc123")
+        check = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, '//*[@id="message2"]'))).text
+        assert check == "Characters are not allowed"
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "AccSubmit"))).click()
+        WebDriverWait(self.driver, 10).until(EC.alert_is_present())
+        assert self.driver.switch_to.alert.text == "Please fill all fields"
+        self.driver.close()
+
+    def test_cS3(self):
+        self.driver.get("https://demo.guru99.com/V4/manager/CustomisedStatementInput.php")
+        self.driver.set_window_size(619, 695)
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "accountno"))).click()
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "accountno"))).send_keys("123!@#!@#")
+        check = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, '//*[@id="message2"]'))).text
+        assert check == "Special characters are not allowed"
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "AccSubmit"))).click()
+        WebDriverWait(self.driver, 10).until(EC.alert_is_present())
+        assert self.driver.switch_to.alert.text == "Please fill all fields"
+        self.driver.close()
+
+    def test_cS4(self):
+        self.driver.get("https://demo.guru99.com/V4/manager/CustomisedStatementInput.php")
+        self.driver.set_window_size(619, 695)
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "accountno"))).click()
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "accountno"))).send_keys("123 12")
+        check = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, '//*[@id="message2"]'))).text
+        assert check == "Characters are not allowed"
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".heading3"))).click()
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "AccSubmit"))).click()
+        WebDriverWait(self.driver, 10).until(EC.alert_is_present())
+        assert self.driver.switch_to.alert.text == "Please fill all fields"
+        self.driver.close()
+
+    def test_cS5(self):
+        self.driver.get("https://demo.guru99.com/V4/manager/CustomisedStatementInput.php")
+        self.driver.set_window_size(619, 695)
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "tbody:nth-child(1) > tr:nth-child(1) > td"))).click()
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "accountno"))).click()
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "accountno"))).send_keys(" ")
+        check = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, '//*[@id="message2"]'))).text
+        assert check == "Characters are not allowed"
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "AccSubmit"))).click()
+        WebDriverWait(self.driver, 10).until(EC.alert_is_present())
+        assert self.driver.switch_to.alert.text == "Please fill all fields"
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "accountno"))).click()
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "accountno"))).send_keys("  ")
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "AccSubmit"))).click()
+        WebDriverWait(self.driver, 10).until(EC.alert_is_present())
+        assert self.driver.switch_to.alert.text == "Please fill all fields"
+        self.driver.close()
+
+    def test_cS6(self):
+        self.driver.get("https://demo.guru99.com/V4/manager/CustomisedStatementInput.php")
+        self.driver.set_window_size(619, 695)
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "fdate"))).click()
+        check = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, '//*[@id="message26"]'))).text
+        assert check == "From Date Field must not be blank"
+        self.driver.close()
+
+    def test_cS7(self):
+        self.driver.get("https://demo.guru99.com/V4/manager/CustomisedStatementInput.php")
+        self.driver.set_window_size(619, 695)
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "tdate"))).click()
+        check = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, '//*[@id="message27"]'))).text
+        assert check == "From Date Field must not be blank"
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "AccSubmit"))).click()
+        WebDriverWait(self.driver, 10).until(EC.alert_is_present())
+        assert self.driver.switch_to.alert.text == "Please fill all fields"
+        self.driver.close()
+
+    def test_cS8(self):
+        self.driver.get("https://demo.guru99.com/V4/manager/CustomisedStatementInput.php")
+        self.driver.set_window_size(619, 695)
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "amountlowerlimit"))).click()
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "amountlowerlimit"))).send_keys("1234Acc123")
+        check = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, '//*[@id="message12"]'))).text
+        assert check == "Characters are not allowed"
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "AccSubmit"))).click()
+        WebDriverWait(self.driver, 10).until(EC.alert_is_present())
+        assert self.driver.switch_to.alert.text == "Please fill all fields"
+        self.driver.close()
+
+    def test_cS9(self):
+        self.driver.get("https://demo.guru99.com/V4/manager/CustomisedStatementInput.php")
+        self.driver.set_window_size(619, 695)
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "amountlowerlimit"))).click()
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "amountlowerlimit"))).send_keys("123!@#")
+        check = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, '//*[@id="message12"]'))).text
+        assert check == "Special characters are not allowed"
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "AccSubmit"))).click()
+        WebDriverWait(self.driver, 10).until(EC.alert_is_present())
+        assert self.driver.switch_to.alert.text == "Please fill all fields"
+        self.driver.close()
+
+    def test_cS10(self):
+        self.driver.get("https://demo.guru99.com/V4/manager/CustomisedStatementInput.php")
+        self.driver.set_window_size(619, 695)
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "amountlowerlimit"))).click()
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "amountlowerlimit"))).send_keys("123 12")
+        check = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, '//*[@id="message12"]'))).text
+        assert check == "Characters are not allowed"
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "AccSubmit"))).click()
+        WebDriverWait(self.driver, 10).until(EC.alert_is_present())
+        assert self.driver.switch_to.alert.text == "Please fill all fields"
+        self.driver.close()
+
+    def test_cS11(self):
+        self.driver.get("https://demo.guru99.com/V4/manager/CustomisedStatementInput.php")
+        self.driver.set_window_size(619, 695)
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "amountlowerlimit"))).click()
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "amountlowerlimit"))).send_keys(" ")
+        check = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, '//*[@id="message12"]'))).text
+        assert check == "Characters are not allowed"
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "AccSubmit"))).click()
+        WebDriverWait(self.driver, 10).until(EC.alert_is_present())
+        assert self.driver.switch_to.alert.text == "Please fill all fields"
+        self.driver.close()
+
+    def test_cS12(self):
+        self.driver.get("https://demo.guru99.com/V4/manager/CustomisedStatementInput.php")
+        self.driver.set_window_size(619, 695)
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "numtransaction"))).click()
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "numtransaction"))).send_keys("1234Acc123")
+        check = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, '//*[@id="message13"]'))).text
+        assert check == "Characters are not allowed"
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "AccSubmit"))).click()
+        WebDriverWait(self.driver, 10).until(EC.alert_is_present())
+        assert self.driver.switch_to.alert.text == "Please fill all fields"
+        self.driver.close()
+
+    def test_cS13(self):
+        self.driver.get("https://demo.guru99.com/V4/manager/CustomisedStatementInput.php")
+        self.driver.set_window_size(619, 695)
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "numtransaction"))).click()
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "numtransaction"))).send_keys("123!@#")
+        check = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, '//*[@id="message13"]'))).text
+        assert check == "Number of Transaction cannot have special character"
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "AccSubmit"))).click()
+        WebDriverWait(self.driver, 10).until(EC.alert_is_present())
+        assert self.driver.switch_to.alert.text == "Please fill all fields"
+        self.driver.close()
+
+    def test_cS14(self):
+        self.driver.get("https://demo.guru99.com/V4/manager/CustomisedStatementInput.php")
+        self.driver.set_window_size(619, 695)
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "numtransaction"))).click()
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "numtransaction"))).send_keys("123 12")
+        check = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, '//*[@id="message13"]'))).text
+        assert check == "Characters are not allowed"
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "AccSubmit"))).click()
+        WebDriverWait(self.driver, 10).until(EC.alert_is_present())
+        assert self.driver.switch_to.alert.text == "Please fill all fields"
+        self.driver.close()
+
+    def test_cS15(self):
+        self.driver.get("https://demo.guru99.com/V4/manager/CustomisedStatementInput.php")
+        self.driver.set_window_size(619, 695)
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "numtransaction"))).click()
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "numtransaction"))).send_keys(" ")
+        check = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, '//*[@id="message13"]'))).text
+        assert check == "There is no error message"
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "AccSubmit"))).click()
+        WebDriverWait(self.driver, 10).until(EC.alert_is_present())
+        assert self.driver.switch_to.alert.text == "Please fill all fields"
+        self.driver.close()
+
+    def test_cS16(self):
+        self.driver.get("https://demo.guru99.com/V4/manager/CustomisedStatementInput.php")
+        self.driver.set_window_size(619, 695)
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "accountno"))).click()
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "accountno"))).send_keys("12345")
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "tbody:nth-child(1) > tr:nth-child(1) > td"))).click()
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "fdate"))).click()
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "fdate"))).send_keys("2000-01-01")
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "tdate"))).click()
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "tdate"))).send_keys("2000-02-02")
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "amountlowerlimit"))).click()
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "amountlowerlimit"))).send_keys("2")
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "numtransaction"))).click()
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "numtransaction"))).send_keys("1")
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "res"))).click()
+        check = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "accountno"))).get_attribute("value")
+        assert check == ""
+        self.driver.close()
+
+    def test_CS17(self):
+        self.driver.get("https://demo.guru99.com/V4/manager/CustomisedStatementInput.php")
+        self.driver.set_window_size(619, 695)
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "accountno"))).click()
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "accountno"))).send_keys("52793")
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "fdate"))).click()
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "fdate"))).send_keys("2025-05-12")
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "tdate"))).click()
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "tdate"))).send_keys("2026-01-02")
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "amountlowerlimit"))).click()
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "amountlowerlimit"))).send_keys("34000")
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "numtransaction"))).click()
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "numtransaction"))).send_keys("1")
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "tr:nth-child(9) > td:nth-child(2)"))).click()
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "AccSubmit"))).click()
+        WebDriverWait(self.driver, 10).until(EC.alert_is_present())
+        assert self.driver.switch_to.alert.text == "Please fill all fields"
+        self.driver.close()
   
